@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="topic-three"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="src" path="topic-one.exercise1"/>
 	<classpathentry kind="src" path="topic-zero.exercise1"/>
@@ -11,5 +12,6 @@
 	<classpathentry kind="lib" path="C:/Users/Vogels/Downloads/Espinaco/Maven/JMF-2.1.1e/lib/jmf.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Vogels/Downloads/Espinaco/Maven/JMF-2.1.1e/lib/mediaplayer.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Vogels/Downloads/Espinaco/Maven/JMF-2.1.1e/lib/multiplayer.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
