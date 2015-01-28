@@ -23,5 +23,4 @@ public class TestMyRoman {
 		Roman roman = new Roman("MDIV");
 		assertEquals(roman.convertToDecimal(),1504);
 	}
-
 }
