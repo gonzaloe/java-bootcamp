@@ -12,9 +12,10 @@ public class Main {
 		scanner.close();
 		
 		//Exercise 4
-		System.out.println(bDManager.getExerciseFour("Algebra"));
+		System.out.println(bDManager.getExerciseFour("algebra"));
 		
 		//Exercise 5
+		System.out.println(bDManager.getExerciseFive("vogel"));
 		
 	}
 

@@ -27,9 +27,9 @@ public class DBManager {
 	public String showStudents(String courseName) {
 		String student = "";
 		try{
-			ResultSet resultSet = statement.executeQuery("select student_has_course.student_last_name from student_has_course as student_has_course " + "where student_has_course.course_name='" + courseName + "' order by student_has_course.student_last_name");
+			ResultSet resultSet = statement.executeQuery("select student_last_name, first_name from student_has_course join student on student.last_name = student_has_course.student_last_name " + "where student_has_course.course_name='" + courseName + "' order by student_has_course.student_last_name");
 			while(resultSet.next()) {
-				student += "\t" + resultSet.getString("student_last_name") + "\n";
+				student += "\t" + resultSet.getString("student_last_name") + ", " + resultSet.getString("first_name") +  "\n";
 			}
 		} catch(Exception e) {
 			System.out.println("An error ocurred trying to get the student name");
@@ -40,7 +40,7 @@ public class DBManager {
 	public String showCourse(String courseName) {
 		String course = "";
 		try{
-			ResultSet resultSet = statement.executeQuery("select course.name from course as course" + " where course.name='" + courseName + "'");
+			ResultSet resultSet = statement.executeQuery("select name from course" + " where name='" + courseName + "'");
 			while(resultSet.next())
 				course+=resultSet.getString("name");
 		} catch(Exception e) {
@@ -53,7 +53,7 @@ public class DBManager {
 	public String showTeacher(String courseName) {
 		String teacher = "";
 		try{
-			ResultSet resultSet = statement.executeQuery("select course.assigned_teacher from course as course" + " where course.name='" + courseName + "'");
+			ResultSet resultSet = statement.executeQuery("select assigned_teacher from course" + " where name='" + courseName + "'");
 			while(resultSet.next())
 				teacher+=resultSet.getString("assigned_teacher");
 		} catch(Exception e) {
@@ -70,4 +70,15 @@ public class DBManager {
 		return courseData;
 	}
 	
+	public String getExerciseFive(String lastName) {
+		String score = "Student: " + lastName + "\n";
+		try{
+			ResultSet resultSet = statement.executeQuery("select final_note, course from score" + " where student='" + lastName + "' order by final_note desc");
+			while(resultSet.next())
+				score+="Course: " + resultSet.getString("course") + "      ->Final Note: " + resultSet.getString("final_note") +"\n";
+		} catch(Exception e) {
+			System.out.println("An error ocurred trying to get the student notes");
+		}
+		return score;
+	}
 }
