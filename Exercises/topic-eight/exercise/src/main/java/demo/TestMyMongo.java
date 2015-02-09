@@ -16,13 +16,16 @@ import com.mongodb.MongoClient;
 public class TestMyMongo {
 
 	public static void main(String[] args) throws UnknownHostException {
-		MongoClient mongoClient = new MongoClient("localhost" , 27017);
+
 		
-		DB dB = mongoClient.getDB("newdatabase");
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+	    MongoOperations mongoOperation = (MongoOperations)ctx.getBean("mongoTemplate");
+		
+		DB dB = mongoOperation.getDB("higschool");
 		
 		//Point 2
-		DBCollection dBCollection = dB.getCollection("testData");
-		BasicDBObject query = new BasicDBObject("i", new BasicDBObject("$gt", 50));
+		DBCollection dBCollection = dB.getCollection("Student");
+		BasicDBObject query = new BasicDBObject("notes", new BasicDBObject("$gt", 4));
 		DBCursor cursor = dBCollection.find();
 		
 		cursor = dBCollection.find(query);
