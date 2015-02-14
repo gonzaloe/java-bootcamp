@@ -1,12 +1,13 @@
 package services;
 
+import model.User;
+
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
 
-import dao.User;
 import demo.MySessionFactory;
 
-public class UserRegistrationImp implements UserRegistrationAndLogin {
+public class UserRegistrationImp implements UserRegistration {
 	
 	private Session session;
 	

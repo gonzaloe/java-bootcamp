@@ -1,8 +1,8 @@
 package services;
 
-import dao.User;
+import model.User;
 
-public interface UserRegistrationAndLogin {
+public interface UserRegistration {
 	public void addUser(User user);	
 	public boolean login(String userName, String password);
 }

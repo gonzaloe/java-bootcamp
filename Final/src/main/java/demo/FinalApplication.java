@@ -2,11 +2,11 @@ package demo;
 
 import java.util.Date;
 
+import model.User;
+
 import org.hibernate.Session;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import dao.User;
 
 @SpringBootApplication
 @EnableAutoConfiguration

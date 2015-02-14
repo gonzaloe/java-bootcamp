@@ -4,6 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 
+import model.Cart;
+import model.Product;
+import model.User;
+
 import org.hibernate.Session;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,10 +15,10 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import services.ProductRegistration;
+import services.ProductRegistrationImp;
+import services.UserRegistration;
 import services.UserRegistrationImp;
-import dao.Product;
-import dao.ProductBuilder;
-import dao.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = FinalApplication.class)
@@ -41,7 +45,7 @@ public class FinalApplicationTests {
         user2.setJoinedDate(new Date());
         
       
-        UserRegistrationImp imp = new UserRegistrationImp();
+        UserRegistration imp = new UserRegistrationImp();
         imp.addUser(user);
         imp.addUser(user2);
         
@@ -58,11 +62,88 @@ public class FinalApplicationTests {
 	
 	@Test
 	public void testNewProduct() {
+	
+		   Product banana = new Product();
+		   banana.setProductID("Banana");
+		   banana.setType("Fruit");
+		   banana.setPrice(4.50);
+		   banana.setQtyAvailable(3000);
+		   
+	       Product apple = new Product();
+	       apple.setProductID("Apple");
+	       apple.setType("Fruit");
+	       apple.setPrice(3.50);
+	       apple.setQtyAvailable(300);
+	       
+	       ProductRegistration imp = new ProductRegistrationImp();
+	       imp.addProduct(banana);
+	       imp.addProduct(apple);
+
+	       Session session = MySessionFactory.getSessionFactory().openSession();
+	       session.beginTransaction();
+	       banana = (Product) session.get(Product.class, "Banana");
+	       assertEquals(banana.getType(), "Fruit");
+	       assertEquals(banana.getQtyAvailable(), 3000);
+	       apple = (Product) session.get(Product.class, "Apple");
+	       assertEquals(apple.getType(), "Fruit");
+	       
+	       
+	       imp.retireProduct(banana, 200);
+	       assertEquals(banana.getQtyAvailable(),2800);
+	}
+	
+	@Test
+	public void testNewCart() {
 		
-		ProductBuilder banana = new Product("Banana", 4.50, 3000);
-        
-        assertEquals(banana.getProduct().getQtyAvailable(), 3000);
-        assertEquals(banana.getProduct().getType(), "Banana");
-        
+		Cart cart = new Cart();
+		
+		Product banana = new Product();
+		banana.setProductID("Banana");
+		banana.setType("Fruit");
+		banana.setPrice(4.50);
+		banana.setQtyAvailable(3000);
+		
+	    Product apple = new Product();
+	    apple.setProductID("Apple");
+	    apple.setType("Fruit");
+	    apple.setPrice(3.50);
+	    apple.setQtyAvailable(300);
+	    
+	    cart.setUserID("espinaco");
+	    cart.getProductList().add(banana);
+	    cart.getProductList().add(apple);
+	    
+	    Session session = MySessionFactory.getSessionFactory().openSession();
+	    session.beginTransaction();
+	    session.save(cart);
+	    session.getTransaction().commit();
+	    session.close();
+	}
+
+	
+	@Test
+	public void testBuySomeProduct() {
+		   
+		   Product berry = new Product();
+		   berry.setProductID("Berry");
+		   berry.setType("Fruit");
+		   berry.setPrice(4.50);
+		   berry.setQtyAvailable(3000);
+	       
+	       Session session = MySessionFactory.getSessionFactory().openSession(); 
+	       session.beginTransaction();  
+	       session.save(berry);  
+	       session.getTransaction().commit(); 
+	       session.close();   
+	       
+	       ProductRegistration imp = new ProductRegistrationImp();
+	       imp.retireProduct(berry, 200);
+	       
+	       session = MySessionFactory.getSessionFactory().openSession(); 
+	       session.beginTransaction();
+	       berry = (Product) session.get(Product.class, "Berry");
+	       
+	       assertEquals(berry.getQtyAvailable(), 2800);
+				
 	}
 }

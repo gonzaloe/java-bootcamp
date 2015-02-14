@@ -1,9 +1,10 @@
-package dao;
+package model;
+
+
 
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -13,16 +14,14 @@ import javax.persistence.TemporalType;
 @Table (name="USER_DETAILS")
 public class User {
 	
-	@GeneratedValue
-	private int userID;
-	@Id
+	@Id 
 	private String userName;
 	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
 	@Temporal (TemporalType.DATE)
-	private Date joinedDate;
+	private Date joinedDate;	
 	
 	public String getUserName() {
 		return userName;
@@ -41,12 +40,6 @@ public class User {
 	}
 	public void setJoinedDate(Date joinedDate) {
 		this.joinedDate = joinedDate;
-	}
-	public int getUserID() {
-		return userID;
-	}
-	public void setUserID(int userID) {
-		this.userID = userID;
 	}
 	public String getFirstName() {
 		return firstName;
