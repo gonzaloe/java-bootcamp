@@ -1,11 +1,13 @@
 package model;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table (name="PRODUCTS")
+@Embeddable
 public class Product {
 
 	@Id

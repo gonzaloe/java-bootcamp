@@ -4,9 +4,11 @@ import model.User;
 
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
+import org.springframework.stereotype.Service;
 
 import demo.MySessionFactory;
 
+@Service
 public class UserRegistrationImp implements UserRegistration {
 	
 	private Session session;
@@ -27,23 +29,23 @@ public class UserRegistrationImp implements UserRegistration {
 	}
 
 	@Override
-	public boolean login(String userName, String password) {
+	public String login(String userName, String password) {
+		String login = null;
 		try {
 			session = MySessionFactory.getSessionFactory().openSession();
 			session.beginTransaction();
 			User user = (User) session.get(User.class, userName);
 			if(user.getPassword().equals(password)) {
-				System.out.println("Logged in");
-				return true;
+				login = "Logged in";
 			}
 			else {
-				System.out.println("Wrong pass");
+				login = "Wrong password";
 			}
 			
 		} catch(Exception exception) {
 			System.out.println("An error ocurred trying to retrieve data from the server");
 		}
-		return false;
+		return login;
 	}
 
 }

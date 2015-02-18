@@ -56,7 +56,7 @@ public class FinalApplicationTests {
         user2 = (User) session.get(User.class, "vogeldios");
         assertEquals(user2.getFirstName(), "Emanuel");
         
-        assertEquals(imp.login("espinaco", "mypassword"), true);
+        assertEquals(imp.login("espinaco", "mypassword"), "Logged in");
 
 	}
 	
@@ -91,7 +91,7 @@ public class FinalApplicationTests {
 	       imp.retireProduct(banana, 200);
 	       assertEquals(banana.getQtyAvailable(),2800);
 	}
-	
+
 	@Test
 	public void testNewCart() {
 		
@@ -103,47 +103,25 @@ public class FinalApplicationTests {
 		banana.setPrice(4.50);
 		banana.setQtyAvailable(3000);
 		
-	    Product apple = new Product();
+		cart.setUserID("espinaco");
+		
+		
+	    Cart cart2 = new Cart();
+		
+		Product apple = new Product();
 	    apple.setProductID("Apple");
 	    apple.setType("Fruit");
 	    apple.setPrice(3.50);
 	    apple.setQtyAvailable(300);
 	    
-	    cart.setUserID("espinaco");
-	    cart.getProductList().add(banana);
-	    cart.getProductList().add(apple);
-	    
+	    cart2.setUserID("gonzalo");
+
 	    Session session = MySessionFactory.getSessionFactory().openSession();
 	    session.beginTransaction();
 	    session.save(cart);
+	    session.save(cart2);
 	    session.getTransaction().commit();
 	    session.close();
 	}
 
-	
-	@Test
-	public void testBuySomeProduct() {
-		   
-		   Product berry = new Product();
-		   berry.setProductID("Berry");
-		   berry.setType("Fruit");
-		   berry.setPrice(4.50);
-		   berry.setQtyAvailable(3000);
-	       
-	       Session session = MySessionFactory.getSessionFactory().openSession(); 
-	       session.beginTransaction();  
-	       session.save(berry);  
-	       session.getTransaction().commit(); 
-	       session.close();   
-	       
-	       ProductRegistration imp = new ProductRegistrationImp();
-	       imp.retireProduct(berry, 200);
-	       
-	       session = MySessionFactory.getSessionFactory().openSession(); 
-	       session.beginTransaction();
-	       berry = (Product) session.get(Product.class, "Berry");
-	       
-	       assertEquals(berry.getQtyAvailable(), 2800);
-				
-	}
 }

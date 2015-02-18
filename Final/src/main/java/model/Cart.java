@@ -1,29 +1,32 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table (name="CART")
 public class Cart {
 	
-	@Id
+	@Id @GeneratedValue
+	private int cartID;
 	private String userID;
-	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	private List<Product> productList = new ArrayList<Product>();
-	
-	public List<Product> getProductList() {
-		return productList;
+	@OneToOne
+	private Product product;
+
+	public int getCartID() {
+		return cartID;
 	}
-	public void setProductList(List<Product> productList) {
-		this.productList = productList;
+	public void setCartID(int cartID) {
+		this.cartID = cartID;
+	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 	public String getUserID() {
 		return userID;

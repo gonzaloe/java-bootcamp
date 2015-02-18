@@ -1,12 +1,17 @@
 package services;
 
+import java.util.List;
+
 import model.Product;
 
+import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
+import org.springframework.stereotype.Service;
 
 import demo.MySessionFactory;
 
+@Service
 public class ProductRegistrationImp implements ProductRegistration {
 	
 	Session session;
@@ -27,12 +32,14 @@ public class ProductRegistrationImp implements ProductRegistration {
 	}
 
 	@Override
-	public void retireProduct(Product product, int qty) {
+	public boolean retireProduct(Product product, int qty) {
+		boolean transaction = false;
 		try {
 			int qtyAfterRetire = 0;
 			if(product.getQtyAvailable()>qty) {
 				qtyAfterRetire = product.getQtyAvailable() - qty;
 				product.setQtyAvailable(qtyAfterRetire);
+				transaction = true;
 			}
 			else {
 				qtyAfterRetire = 1/0;
@@ -45,12 +52,34 @@ public class ProductRegistrationImp implements ProductRegistration {
 		} catch (Exception exc) {
 			System.out.println("An error ocurred while trying to retrieve the product");
 		}
+		return transaction;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Product getProduct() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Product> getProductByType(String type) throws HibernateException {
+		List<Product> prodList = null;
+		try {
+			session = MySessionFactory.getSessionFactory().openSession();
+			prodList = session.createQuery("from Product p where p.type='" + type + "'").list();
+		}
+		finally {
+			session.close();
+		}
+		return prodList;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Product> getProductByName(String name) throws HibernateException {
+		List<Product> prodList = null;
+		try {
+			session = MySessionFactory.getSessionFactory().openSession();
+			prodList = session.createQuery("from Product p where p.productID='" + name + "'").list();
+		}
+		finally {
+			session.close();
+		}
+		return prodList;
+	}
 }
